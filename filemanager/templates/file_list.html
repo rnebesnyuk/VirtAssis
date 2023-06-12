@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}File List{% endblock %}
+
+{% block content %}
+    <h1>File List</h1>
+    <ul class="category-filter">
+        <li><a href="{% url 'file_list' %}">All</a></li>
+        <li><a href="{% url 'file_list' %}?category=images">Images</a></li>
+        <li><a href="{% url 'file_list' %}?category=documents">Documents</a></li>
+        <li><a href="{% url 'file_list' %}?category=videos">Videos</a></li>
+        <li><a href="{% url 'file_list' %}?category=others">Others</a></li>
+    </ul>
+    <div class="file-list">
+        {% if files %}
+            {% for file in files %}
+                <div class="file-item">
+                    <h3 class="file-name">{{ file.name }}</h3>
+                    <p class="file-category">Category: {{ file.category }}</p>
+                    <div class="file-actions">
+                        <a href="{% url 'download_file' file.id %}" download>Download</a>
+                        <a href="{% url 'delete_file' file.id %}" class="file-delete">Delete</a>
+                    </div>
+                    <div class="image-container">
+    <img class="file-image" src="{{ file.file.url }}" alt="{{ file.name }}" style="max-width: 100%; max-height: 100%;">
+</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No files found.</p>
+        {% endif %}
+    </div>
+{% endblock %}
