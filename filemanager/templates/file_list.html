@@ -17,15 +17,32 @@
                 <div class="file-item">
                     <h3 class="file-name">{{ file.name }}</h3>
                     <p class="file-category">Category: {{ file.category }}</p>
+                    <p class="file-upload-datetime">Uploaded: {{ file.upload_datetime|date:"F j, Y H:i" }}</p>
                     <div class="file-actions">
                         <a href="{% url 'download_file' file.id %}" download>Download</a>
                         <a href="{% url 'delete_file' file.id %}" class="file-delete">Delete</a>
                     </div>
-                    <div class="image-container">
-    <img class="file-image" src="{{ file.file.url }}" alt="{{ file.name }}" style="max-width: 100%; max-height: 100%;">
-</div>
+                    {% if file.category == 'images' %}
+                        <div class="image-container">
+                            <img class="file-image" src="{{ file.file.url }}" alt="{{ file.name }}" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
+            {% if files.has_other_pages %}
+                <div class="pagination">
+                    {% if files.has_previous %}
+                        <a href="?page=1">&laquo; First</a>
+                        <a href="?page={{ files.previous_page_number }}">Previous</a>
+                    {% endif %}
+                    <span class="current-page">{{ files.number }}</span>
+                    <span class="total-pages">of {{ files.paginator.num_pages }}</span>
+                    {% if files.has_next %}
+                        <a href="?page={{ files.next_page_number }}">Next</a>
+                        <a href="?page={{ files.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% else %}
             <p>No files found.</p>
         {% endif %}

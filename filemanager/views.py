@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from .models import File
 import cloudinary.uploader
@@ -22,10 +23,15 @@ def upload_file(request):
 
 def file_list(request):
     category = request.GET.get('category')
-    files = File.objects.all()
+    files = File.objects.all().order_by('-upload_datetime')
 
     if category:
         files = files.filter(category=category)
+
+    # Pagination
+    paginator = Paginator(files, 4)
+    page_number = request.GET.get('page')
+    files = paginator.get_page(page_number)
 
     categories = dict(File.CATEGORIES)
 
