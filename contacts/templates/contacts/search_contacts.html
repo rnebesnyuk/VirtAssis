@@ -1,0 +1,54 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+
+<h1>Search results:</h1>
+
+<div>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Photo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Birthdate</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+
+        {% for contact in contacts %}
+        <tbody>
+            <tr>
+                <th scope="row">{{ contact.id }}</th>
+                {% if contact.photo %}
+                <td><img src="{{contact.photo.url}}" width="64" height="64"></td>
+                {% else %}
+                {% if contact.gender == 'male' %}
+                <td>
+                    <p class="pic_m"></p>
+                </td>
+                {% else %}
+                <td>
+                    <p class="pic_f"></p>
+                </td>
+                {% endif %}
+                {% endif %}
+                <td>{{ contact.first_name }}</td>
+                <td>{{ contact.last_name }}</td>
+                <td>{{ contact.birthdate.date }}</td>
+                <td>{{ contact.phones.first }} - {{ contact.phones.first.field_type}}</td>
+                <td>{{ contact.emails.first }} - {{ contact.emails.first.field_type}}</td>
+                <td>{{ contact.gender }}</td>
+                <td>{{ contact.address }}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}

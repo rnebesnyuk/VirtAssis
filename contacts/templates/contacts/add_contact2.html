@@ -1,0 +1,181 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+<form action="{% url 'add_contact' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+    <div class="row_field">
+        {{ forms.contact_form.first_name.label_tag }}
+        {{ forms.contact_form.first_name }}
+    </div>
+    <div class="row_field">
+        {{ forms.contact_form.last_name.label_tag }}
+        {{ forms.contact_form.last_name }}
+    </div>
+    <div>
+        <div class="row_field">
+            {{ forms.contact_form.birthdate.label_tag }}
+            {{ forms.contact_form.birthdate }}
+        </div>
+        <div class="row_field">
+            {{ forms.contact_form.gender.label_tag }}
+            {{ forms.contact_form.gender }}
+        </div>
+    </div>
+    <div class="row_field">
+        {{ forms.phone_number_form.phone.label_tag }}
+        {{ forms.phone_number_form.phone }}
+    </div>
+    <div class="row_field">
+        {{ forms.phone_number_form.field_type.label_tag }}
+        {{ forms.phone_number_form.field_type }}
+    </div>
+
+    <button type="button" id="add-phone-field">+</button>
+
+    <div class="phone-fields">
+        {{ form.phone.label_tag }}
+        {{ form.phone }}
+    </div>
+    <div>
+        <div class="row_field">
+            {{ forms.email_form.email.label_tag }}
+            {{ forms.email_form.email }}
+        </div>
+        <div class="row_field">
+            {{ forms.email_form.field_type.label_tag }}
+            {{ forms.email_form.field_type }}
+        </div>
+        <button type="button" id="add-email-field">+</button>
+
+        <div class="email-fields">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+    </div>
+
+    <div class="row_field">
+        {{ forms.contact_form.address.label_tag }}
+        {{ forms.contact_form.address }}
+    </div>
+    <div>
+        <div class="row_field col-sm-6">
+            {{ forms.contact_form.photo.label_tag }}
+            <input class="form-control" type="file" id="formFile">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success rounded-pill px-3">Add</button>
+    <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Counter to keep track of the number of email fields
+        var emailFieldCount = 1;
+
+        // Function to create a new email field
+        function createEmailField() {
+            // Create a new email field with a unique ID and name
+            var newEmailField = $('<div><input type="email" name="email_' + emailFieldCount + '"></div>');
+
+            // Append the new email field to the container
+            $('.email-fields').append(newEmailField);
+
+            // Increment the email field count
+            emailFieldCount++;
+        }
+
+        // Handle button click event to add a new email field
+        $('#add-email-field').click(function () {
+            createEmailField();
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Counter to keep track of the number of email fields
+        var phoneFieldCount = 1;
+
+        // Function to create a new email field
+        function createPhoneField() {
+            // Create a new email field with a unique ID and name
+            var newPhoneField = $('<div><input type="phone" name="phone_' + phoneFieldCount + '"></div>');
+
+            // Append the new email field to the container
+            $('.phone-fields').append(newPhoneField);
+
+            // Increment the email field count
+            phoneFieldCount++;
+        }
+
+        // Handle button click event to add a new email field
+        $('#add-phone-field').click(function () {
+            createPhoneField();
+        });
+    });
+</script>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+
+<form class="row g-3">
+    <div class="col-md-12">
+        <label for="forms.contact_form.first_name" class="form-label">First name</label>
+        <input type="text" class="form-control" id="forms.contact_form.first_name">
+    </div>
+    <div class="col-md-6">
+        <label for="inputEmail5" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputEmail5">
+    </div>
+    <div class="col-md-6">
+        <label for="inputPassword5" class="form-label">Password</label>
+        <input type="password" class="form-control" id="inputPassword5">
+    </div>
+    <div class="col-12">
+        <label for="inputAddress5" class="form-label">Address</label>
+        <input type="text" class="form-control" id="inputAddres5s" placeholder="1234 Main St">
+    </div>
+    <div class="col-12">
+        <label for="inputAddress2" class="form-label">Address 2</label>
+        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    </div>
+    <div class="col-md-6">
+        <label for="inputCity" class="form-label">City</label>
+        <input type="text" class="form-control" id="inputCity">
+    </div>
+    <div class="col-md-4">
+        <label for="inputState" class="form-label">State</label>
+        <select id="inputState" class="form-select">
+            <option selected="">Choose...</option>
+            <option>...</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label for="inputZip" class="form-label">Zip</label>
+        <input type="text" class="form-control" id="inputZip">
+    </div>
+    <div class="col-12">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+                Check me out
+            </label>
+        </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+    </div>
+</form>
+{% endblock %}
