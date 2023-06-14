@@ -1,0 +1,2 @@
+django~=4.2.2
+cloudinary~=1.33.0
