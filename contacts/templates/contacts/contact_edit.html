@@ -1,0 +1,30 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+
+<h1>Edit Contact</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div>
+        {% for f in form %}
+        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
+    <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+
+
+</form>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+{% endblock %}
