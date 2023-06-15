@@ -3,9 +3,14 @@ from django.shortcuts import render, redirect
 from .models import File
 import cloudinary.uploader
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+
+from filemanager.utils import DataMixin, menu
+
 
 
 def upload_file(request):
+    title = "Upload File"
     if request.method == 'POST':
         name = request.POST['name']
         file = request.FILES['file']
@@ -18,7 +23,12 @@ def upload_file(request):
         File.objects.create(name=name, file=file_url, category=category)
         return redirect('file_list')
 
-    return render(request, 'upload_file.html')
+    return render(request, 'upload_file.html', {'title': title, 'menu': menu})
+
+
+def starting(request):
+    title = "Files"
+    return render(request, 'menu.html', {'title': title, 'menu': menu})
 
 
 def file_list(request):
@@ -34,8 +44,9 @@ def file_list(request):
     files = paginator.get_page(page_number)
 
     categories = dict(File.CATEGORIES)
+    title = "File List"
 
-    return render(request, 'file_list.html', {'files': files, 'cloudinary': cloudinary, 'categories': categories})
+    return render(request, 'file_list.html', {'files': files, 'title': title, 'menu': menu, 'cloudinary': cloudinary, 'categories': categories})
 
 
 def delete_file(request, file_id):

@@ -40,11 +40,11 @@ class AddEmailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["email"].required = False
-        self.fields["field_type"].empty_label = "None"
+        #self.fields["field_type"].empty_label = "None"
 
     class Meta:
         model = Email
-        fields = ["email", "field_type",]
+        fields = ["email", ]
 
 
 class ContactImportForm(forms.Form):

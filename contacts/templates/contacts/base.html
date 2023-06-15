@@ -30,14 +30,15 @@
                         {% if request.user.is_authenticated %}
                         <li class="last">
 
-                            Welcome, <span style="font-size: 20px; font-weight: bold;">{{ user.username }}</span> | <a href=#><button type="button" class="btn btn-outline-danger btn-sm">Logout</button></a>
+                            Welcome, <span style="font-size: 20px; font-weight: bold;">{{ user.username }}</span> | <a
+                                href=#><button type="button" class="btn btn-outline-danger btn-sm">Logout</button></a>
                         <li class="user-button__image"></li>
                         </li>
                         {%else %}
                         <li class="last">
-                            <input type="submit" value="Login" class="btn btn-primary">
-                            <button type="button" class="btn btn-outline-danger btn-sm" href=#>Register</button>
-                            <a href=#>Register</a> | <a href=#>Login</a>
+                            <a href=#><button type="button" class="btn btn-outline-danger"><i
+                                        class="bi bi-star me-1"></i>Register</button></a>
+                            <a href=#><button type="button" class="btn btn-outline-dark">Login</button></a>
                         </li>
                         {% endif %}
                     </ul>
@@ -51,16 +52,19 @@
                         <td valign="top" class="left-chapters">
                             <ul id="leftchapters">
                                 <li style="font-size: 25px; font-weight: bold;"><a href="{% url 'home' %}">Applications</a></li>
-
-
-                                {% for a in apps %}
-                                {% if a.pk == app_selected %}
-                                <li><a href="{% url a.url_name %}">{{a.title}}</a></li>
-                                
-                                {% else %}
-                                <li><a href="{% url a.url_name %}">{{a.title}}</a></li>
+                                <li><a href="{% url 'home' %}">Contacts</a></li>
+                                <li><a href="{% url 'import_contacts' %}">Notes</a></li>
+                                <li><a href="{% url 'file_list' %}">Files</a></li>
+                                {% if title == 'File List' %}
+                                    <div>_________________</div>
+                                    <div><a href="{% url 'file_list' %}"><span class="badge border-primary border-1 text-primary">All</a></span></div>
+                                    <div><a href="{% url 'file_list' %}?category=images"><span class="badge border-danger border-1 text-danger">Images</a></span></div>
+                                    <div><a href="{% url 'file_list' %}?category=documents"><span class="badge border-dar border-1 text-dark">Documents</a></span></div>
+                                    <div><a href="{% url 'file_list' %}?category=videos"><span class="badge border-warning border-1 text-warning">Videos</a></span></div>
+                                    <div><a href="{% url 'file_list' %}?category=others"><span class="badge border-info border-1 text-info">Others</a></span></div>
+                                    <div>_________________</div>
                                 {% endif %}
-                                {% endfor %}
+                                <div><li><a href="{% url 'home' %}">News</a></li></div>
                             </ul>
                         </td>
                         <!-- End Sidebar's -->

@@ -10,8 +10,8 @@ menu = [
 
 apps = [
     {"title": "Contacts", "url_name": "home"},
-    {"title": "Notes", "url_name": "home"},
-    {"title": "Files", "url_name": "home"},
+    {"title": "Notes", "url_name": "show_bdays"},
+    {"title": "Files", "url_name": "files_list"},
     {"title": "News", "url_name": "home"},
 ]
 
