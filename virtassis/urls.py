@@ -27,6 +27,7 @@ urlpatterns = [
     path("", include("contacts.urls")),
     path('files/', include('filemanager.urls')),
     path('users/', include('users.urls')),
+    path('news/', include('additionalapp.urls')),
 ]
 
 if settings.DEBUG:

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "contacts",
     "filemanager",
+    "additionalapp",
 ]
 
 MIDDLEWARE = [
