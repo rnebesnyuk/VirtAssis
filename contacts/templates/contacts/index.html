@@ -9,7 +9,9 @@
 {% endif %}
 
 <div>
-    <h1>Contacts</h1>
+    <div class="fit2">
+        <h1>Contacts</h1>
+    </div>
     <div class="row">
         <div class="col-sm-4">
             <p style="font-size: 24px">Retrieve the contacts' entries who have a birthday in</p>
@@ -35,12 +37,14 @@
                         Add</button></a>
             </div>
             <div class="col-sm-2">
-                <a href="{% url 'import_contacts' %}"><button type="submit" class="btn btn-success rounded-pill">+
+                <a href="{% url 'import_contacts' %}"><button type="submit"
+                        class="btn btn-success rounded-pill">+
                         Import
                         .csv</button></a>
             </div>
             <div class="col-sm-2">
-                <a href="{% url 'export_contacts' %}"><button type="submit" class="btn btn-primary rounded-pill">+
+                <a href="{% url 'export_contacts' %}"><button type="submit"
+                        class="btn btn-primary rounded-pill">+
                         Export
                         .csv</button></a>
             </div>
@@ -88,7 +92,7 @@
                 <td>{{ contact.last_name }}</td>
                 <td>{{ contact.birthdate.date }}</td>
                 <td>{{ contact.phones.first }} - {{ contact.phones.first.field_type}}</td>
-                <td>{{ contact.emails.first }} - {{ contact.emails.first.field_type}}</td>
+                <td>{{ contact.emails.first }}</td>
                 <td>{{ contact.gender }}</td>
                 <td>{{ contact.address }}</td>
                 <td><a href="{% url 'contact_edit' contact.pk %}"><button type="button"

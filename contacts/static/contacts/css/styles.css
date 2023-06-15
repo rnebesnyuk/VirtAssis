@@ -115,6 +115,20 @@ ul.list-articles li {
 
 }
 
+.pic_t{
+	background: url('../images/folder.png');
+	width: 320px;
+	height: 320px;
+
+}
+
+.pic_v{
+	background: url('../images/video.jpg');
+	width: 320px;
+	height: 320px;
+
+}
+
 ul.mainmenu {
 	list-style: none;
 	margin: 0;
@@ -779,7 +793,7 @@ ul.mainmenu li.user-button__image {
 }
 
 .left-chapters ul li a {
-	color: #444;
+	color: #464242;
 	text-decoration: none;
 }
 
@@ -819,7 +833,7 @@ ul.mainmenu li.user-button__image {
 }
 
 .content-text {
-	margin: 15px 0 0 20px;
+	margin: 50px 0 0 20px;
 	color: #000;
 	font-size: 20px;
 	font-family: Yandex Sans Display Light;
@@ -836,5 +850,67 @@ ul.mainmenu li.user-button__image {
 }
 
 .fit {
-	margin: 0 0 15px 555px;
+	margin: 0 0 20px 555px;
+}
+
+.fit2 {
+	margin: 25px 0 20px 0px;
+}
+
+.categories {
+	margin: 0;
+	background: #777474;
+	border-right: 1px solid #312d2d;
+	min-height: 100%;
+}
+
+.categories ul {
+	width: 250px;
+	min-height: 100%;
+	margin: 0;
+	padding: 20px 10px 10px 20px;
+	list-style: none;
+	font-size: 20px;
+}
+
+.categories ul li {
+	margin: 30px 0 0 0;
+	color: #999;
+}
+
+.categories ul li.selected {
+	color: #0059b2;
+}
+
+.categories ul li a {
+	color: #444;
+	text-decoration: none;
+}
+
+.categories ul li a:hover {
+	color: #2de072;
+}
+
+.categories ul li.share {
+	margin: 60px 0 0 0;
+}
+
+.categories ul li.share p {
+	margin: 30px 0 30px 0;
+}
+
+.categories ul li.share a {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	margin: 0 20px 0 0;
+}
+
+.margin {
+	margin: 30px 0 0 0;
+}
+
+.align {
+	display: flex;
+	flex-direction: column;
 }

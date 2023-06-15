@@ -14,13 +14,13 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% for f in form %}
-    <div class="col-sm-10">
+    <div class="col-sm-6">
         <p><label for="{{ f.id_for_label }}">{{f.label}}:</label></p>
         <p class="form-control" type="file" id="formFile">{{ f }}</p>
+        <button type="submit" class="btn btn-success rounded-pill px-3">Import Contacts</button>
+        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-success rounded-pill px-3">Import Contacts</button>
-    <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
 </form>
 <style>
     body {

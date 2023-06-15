@@ -13,7 +13,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 
-from .utils import DataMixin
+from .utils import DataMixin, menu, apps
 from .models import *
 from .forms import AddContactForm, AddPhoneForm, AddEmailForm, ContactImportForm
 
@@ -176,6 +176,7 @@ def export_contacts(request):
 
     
 def import_contacts(request):
+    title = "Import contacts"
     if request.method == 'POST':
         form = ContactImportForm(request.POST, request.FILES)
         if form.is_valid():
@@ -193,14 +194,14 @@ def import_contacts(request):
                     # email = row[6]
                     Contact.objects.create(first_name=name1, last_name=name2, birthdate=birthdate, gender=gender, address=address)
 
-                return render(request, 'contacts/import_success.html')
+                return render(request, 'contacts/import_success.html', {'title': title, 'menu': menu, 'apps': apps})
             except Exception as e:
                 messages.success(request, f"Error {e} happened. Try again.")
                 print(e)
     else:
         form = ContactImportForm()
 
-    return render(request, 'contacts/import.html', {'form': form})
+    return render(request, 'contacts/import.html', {'form': form, 'title': title, 'menu': menu})
 
 
 class SearchContacts(DataMixin, ListView):
