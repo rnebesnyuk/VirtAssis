@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect
 from .models import File
 import cloudinary.uploader
 from django.http import HttpResponse
+import os
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from filemanager.utils import DataMixin, menu
-
 
 
 def upload_file(request):
@@ -16,12 +16,19 @@ def upload_file(request):
         file = request.FILES['file']
         category = request.POST['category']
 
-        allowed_formats = ['pdf', 'doc', 'docx', 'rar', 'jpg', 'png', 'doc', 'zip', 'mp3', 'mp4', 'mov', 'gif']
+        allowed_formats = ['pdf', 'doc', 'docx', 'rar', 'jpg', 'png', 'doc', 'zip', 'mp3', 'mp4', 'mov', 'gif', 'dmg', 'txt', 'jpeg']
+        file_extension = os.path.splitext(file.name)[1][1:].lower()  # Extract the file extension from the uploaded file
+        if file_extension not in allowed_formats:
+            error_message = "Unsupported file format. Please upload a different file."
+            return render(request, 'upload_file.html', {'title': title, 'menu': menu, 'error_message': error_message})
+
         upload_result = cloudinary.uploader.upload(file, resource_type='raw', allowed_formats=allowed_formats)
         file_url = upload_result['secure_url']
 
         File.objects.create(name=name, file=file_url, category=category)
         return redirect('file_list')
+
+    return render(request, 'upload_file.html', {'title': title, 'menu': menu})
 
     return render(request, 'upload_file.html', {'title': title, 'menu': menu})
 
@@ -59,6 +66,9 @@ def delete_file(request, file_id):
 
 def download_file(request, file_id):
     file = File.objects.get(id=file_id)
-    response = HttpResponse(file.file, content_type='application/octet-stream')
-    response['Content-Disposition'] = 'attachment; filename="{}"'.format(file.name)
+    file_url = file.file
+    file_extension = os.path.splitext(file.file.name)[1]  # Extract the file extension from the name
+    filename = file.name + file_extension  # Add the file format to the filename
+    response = HttpResponse(file_url, content_type='application/octet-stream')
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
     return response
