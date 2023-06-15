@@ -1,0 +1,41 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+
+<h2 xmlns:users="http://www.w3.org/1999/xhtml">SignIn</h2>
+
+{% if form.errors %}
+<span class="alert alert-danger" role="alert">{{form.non_field_errors}}</span>
+{% endif %}
+
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="row mb-4">
+        <label>Username:</label>
+        {{form.username}}
+        <span>{{form.errors.username}}</span>
+    </div>
+    <div class="row mb-3">
+        <label>Password:</label>
+        {{form.password}}
+        <span>{{form.errors.password}}</span>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
+    </div>
+    <div class="small text-center">
+        <a href="{% url 'users:password_reset' %}" class="text-center"><i>Forgot Password?</i></a>
+    </div>
+</form>
+
+{% endblock %}
