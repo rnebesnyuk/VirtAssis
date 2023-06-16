@@ -1,4 +1,5 @@
 {% extends 'contacts/base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 
@@ -7,15 +8,36 @@
     {% csrf_token %}
 
     <div>
-        {% for f in form %}
-        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
-        <div class="form-error">{{ f.errors }}</div>
+        <div>
+            {% for f in form %}
+            <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+            <div class="form-error">{{ f.errors }}</div>
+            {% endfor %}
+        </div>
+        <div class=" email-formset">
+            {% for form in email_formset %}
+            <div class="margin email-form">
+                {{ form.email.errors }}
+                <label for="{{ form.email.id_for_label }}">Email:</label>
+                {{ form.email }}
+            </div>
+            {% endfor %}
+        </div>
+        {% for form in phone_formset %}
+        <div class="margin phone-number-formset">
+            {{ form.phone.errors }}
+            <label for="{{ form.phone.id_for_label }}">Phone{{ forloop.counter|add_one }}:</label>
+            {{ form.phone }}
+            {{ form.field_type.errors }}
+            <label for="{{ form.field_type.id_for_label }}">Type:</label>
+            {{ form.field_type }}
+        </div>
         {% endfor %}
     </div>
-
-    <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
-    <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
-
+    <div class="margin">
+        <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
+        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+    </div>
 
 </form>
 

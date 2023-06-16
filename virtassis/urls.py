@@ -24,10 +24,10 @@ from virtassis import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("contacts.urls")),
+    path("", include("additional_app.urls")),
     path('files/', include('filemanager.urls')),
+    path('contacts/', include('contacts.urls')),
     path('users/', include('users.urls')),
-    path('news/', include('additionalapp.urls')),
 ]
 
 if settings.DEBUG:

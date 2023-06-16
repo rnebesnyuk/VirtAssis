@@ -1,12 +1,13 @@
+import os
+
+import cloudinary.uploader
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-from .models import File
-import cloudinary.uploader
 from django.http import HttpResponse
-import os
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
-from filemanager.utils import DataMixin, menu
+from filemanager.utils import DataMixin, menu, apps
+from .models import File
 
 
 def upload_file(request):
@@ -19,9 +20,8 @@ def upload_file(request):
         allowed_formats = ['pdf', 'doc', 'docx', 'rar', 'jpg', 'png', 'doc', 'zip', 'mp3', 'mp4', 'mov', 'gif', 'dmg', 'txt', 'jpeg']
         file_extension = os.path.splitext(file.name)[1][1:].lower()  # Extract the file extension from the uploaded file
         if file_extension not in allowed_formats:
-            error_message = "Unsupported file format. Please upload a different file."
+            error_message = "Unsupported file format. Please try a different file."
             return render(request, 'upload_file.html', {'title': title, 'menu': menu, 'error_message': error_message})
-
         upload_result = cloudinary.uploader.upload(file, resource_type='raw', allowed_formats=allowed_formats)
         file_url = upload_result['secure_url']
 
@@ -29,13 +29,6 @@ def upload_file(request):
         return redirect('file_list')
 
     return render(request, 'upload_file.html', {'title': title, 'menu': menu})
-
-    return render(request, 'upload_file.html', {'title': title, 'menu': menu})
-
-
-def starting(request):
-    title = "Files"
-    return render(request, 'menu.html', {'title': title, 'menu': menu})
 
 
 def file_list(request):
@@ -53,7 +46,7 @@ def file_list(request):
     categories = dict(File.CATEGORIES)
     title = "File List"
 
-    return render(request, 'file_list.html', {'files': files, 'title': title, 'menu': menu, 'cloudinary': cloudinary, 'categories': categories})
+    return render(request, 'file_list.html', {'files': files, 'title': title, 'menu': menu, 'apps': apps, 'cloudinary': cloudinary, 'categories': categories})
 
 
 def delete_file(request, file_id):

@@ -1,4 +1,5 @@
 {% extends 'contacts/base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 <div>
@@ -17,23 +18,28 @@
 
     <div>
 
-        {% for f in forms.contact_form %}
+        {% for f in contact_form %}
         <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
         <div class="form-error">{{ f.errors }}</div>
         {% endfor %}
     </div>
 
     <div>
-        {% for f in forms.email_form %}
+        {% for f in email_form %}
         <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
         <div class="form-error">{{ f.errors }}</div>
         {% endfor %}
     </div>
-    <div>
-
-        {% for f in forms.phone_number_form %}
-        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
-        <div class="form-error">{{ f.errors }}</div>
+    <div class="phone-number-formset">
+        {% for form in phone_number_forms %}
+        <div class="phone-number-form margin">
+            {{ form.phone.errors }}
+            <label for="{{ form.phone.id_for_label }}">Phone{{ forloop.counter }}:</label>
+            {{ form.phone }}
+            {{ form.field_type.errors }}
+            <label for="{{ form.field_type.id_for_label }}">Type:</label>
+            {{ form.field_type }}
+        </div>
         {% endfor %}
     </div>
 

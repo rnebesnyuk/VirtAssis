@@ -37,14 +37,12 @@
                         Add</button></a>
             </div>
             <div class="col-sm-2">
-                <a href="{% url 'import_contacts' %}"><button type="submit"
-                        class="btn btn-success rounded-pill">+
+                <a href="{% url 'import_contacts' %}"><button type="submit" class="btn btn-success rounded-pill">+
                         Import
                         .csv</button></a>
             </div>
             <div class="col-sm-2">
-                <a href="{% url 'export_contacts' %}"><button type="submit"
-                        class="btn btn-primary rounded-pill">+
+                <a href="{% url 'export_contacts' %}"><button type="submit" class="btn btn-primary rounded-pill">+
                         Export
                         .csv</button></a>
             </div>
@@ -64,7 +62,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Last name</th>
                 <th scope="col">Birthdate</th>
-                <th scope="col">Phone</th>
+                <th scope="col">Phones</th>
                 <th scope="col">Email</th>
                 <th scope="col">Gender</th>
                 <th scope="col">Address</th>
@@ -91,7 +89,14 @@
                 <td>{{ contact.first_name }}</td>
                 <td>{{ contact.last_name }}</td>
                 <td>{{ contact.birthdate.date }}</td>
-                <td>{{ contact.phones.first }} - {{ contact.phones.first.field_type}}</td>
+                <td>
+                    {% for phone in contact.phones.all %}
+                    {% if phone.phone %}
+                    {{ phone.phone }} - {{ phone.field_type }}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ contact.emails.first }}</td>
                 <td>{{ contact.gender }}</td>
                 <td>{{ contact.address }}</td>

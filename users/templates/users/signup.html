@@ -1,42 +1,65 @@
-{% extends 'quotes/base.html' %}
+{% extends 'contacts/base.html' %}
 
 {% block content %}
 
-<h2>SignUp</h2>
+<section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-{% if form.errors %}
-<span class="alert alert-danger" role="alert">{{ form.non_field_errors }}</span>
-{% endif %}
+                <div class="card mb-3">
 
-<form method="post">
-    {% csrf_token %}
+                    <div class="card-body">
 
-    <div class="row mb-4">
-        <label>Username:</label>
-        {{ form.username }}
-        <span>{{ form.errors.username }}</span>
-    </div>
-    <div class="row mb-3">
-        <label>Email:</label>
-        {{ form.email }}
-        <span>{{ form.errors.email }}</span>
-    </div>
+                        <div class="pt-4 pb-2">
+                            <h5 class="card-title text-center pb-0 fs-4">Register Your Account</h5>
+                        </div>
 
-    <div class="row mb-3">
-        <label>Password:</label>
-        {{ form.password1 }}
-        <span>{{ form.errors.password1 }}</span>
-    </div>
-    <div class="row mb-3">
-        <label>Password:</label>
-        {{ form.password2}}
-        <span>{{ form.errors.password2 }}</span>
-    </div>
+                        {% if form.errors %}
+                        <span class="alert alert-danger" role="alert">{{form.non_field_errors}}</span>
+                        {% endif %}
 
-    <div class="d-grid gap-2 col-6 mx-auto">
-        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-        <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
-    </div>
-</form>
+                        {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                            <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+                                {{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
 
-{% endblock %}
+                        <form class="row g-3 needs-validation" method="POST" novalidate="">
+                            {% csrf_token %}
+
+                            <div class="row mb-6">
+                                <label>Username:</label>
+                                {{ form.username }}
+                                <span>{{ form.errors.username }}</span>
+                            </div>
+                            <div class="row mb-6">
+                                <label>Email:</label>
+                                {{ form.email }}
+                                <span>{{ form.errors.email }}</span>
+                            </div>
+
+                            <div class="row mb-6">
+                                <label>Password:</label>
+                                {{ form.password1 }}
+                                <span>{{ form.errors.password1 }}</span>
+                            </div>
+                            <div class="row mb-6">
+                                <label>Confirm password:</label>
+                                {{ form.password2}}
+                                <span>{{ form.errors.password2 }}</span>
+                            </div>
+
+                            <div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+
+                                    <button class="btn btn-secondary" type="reset">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        {% endblock %}
