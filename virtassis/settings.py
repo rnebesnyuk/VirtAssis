@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "filemanager",
     "additional_app",
     "users",
+    "googlecharts",
 ]
 
 MIDDLEWARE = [
