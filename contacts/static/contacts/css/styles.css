@@ -129,6 +129,14 @@ ul.list-articles li {
 
 }
 
+.back {
+	margin: 0;
+	padding: 0;
+	background: url('../images/back_login.jpg');
+	background-size: auto;
+	background-repeat: no-repeat;
+}
+
 ul.mainmenu {
 	list-style: none;
 	margin: 0;
@@ -218,7 +226,7 @@ div.button {
 }
 
 .content {
-	padding: 5px 15px 10px 10px;
+	padding: 0 0 0 0;
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -427,7 +435,7 @@ ul.lang-list li a:hover {
 	box-sizing: border-box;
 
 	background: #fae204;
-	padding: 5px;
+	padding: 25px;
 	color: #0c0000;
 	font-size: 14px;
 	font-family: Verdana, Geneva, Arial, Helvetica;
@@ -790,6 +798,7 @@ ul.mainmenu li.user-button__image {
 
 .left-chapters ul li.selected {
 	color: #0059b2;
+	font-size: 25px;
 }
 
 .left-chapters ul li a {

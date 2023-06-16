@@ -21,7 +21,7 @@
                 {% block mainmenu %}
                 <div class="header">
                     <ul id="mainmenu" class="mainmenu">
-                        <li class="logo"><a href="{% url 'home' %}">
+                        <li class="logo"><a href="{% url 'main' %}">
                                 <div class="logo"></div>
                             </a></li>
                         {% for m in menu %}
@@ -31,14 +31,16 @@
                         <li class="last">
 
                             Welcome, <span style="font-size: 20px; font-weight: bold;">{{ user.username }}</span> | <a
-                                href=#><button type="button" class="btn btn-outline-danger btn-sm">Logout</button></a>
+                                href="{% url 'logout' %}"><button type="button"
+                                    class="btn btn-outline-danger btn-sm">Logout</button></a>
                         <li class="user-button__image"></li>
                         </li>
-                        {%else %}
+                        {% else %}
                         <li class="last">
-                            <a href=#><button type="button" class="btn btn-outline-danger"><i
+                            <a href="{% url 'register' %}"><button type="button" class="btn btn-outline-danger"><i
                                         class="bi bi-star me-1"></i>Register</button></a>
-                            <a href=#><button type="button" class="btn btn-outline-dark">Login</button></a>
+                            <a href="{% url 'login' %}" /><button type="button"
+                                class="btn btn-outline-dark">Login</button></a>
                         </li>
                         {% endif %}
                     </ul>
@@ -49,30 +51,63 @@
                 <table class="table-content" border=0 cellpadding="0" cellspacing="0">
                     <tr>
                         <!-- Sidebar left -->
+
                         <td valign="top" class="left-chapters">
                             <ul id="leftchapters">
-                                <li style="font-size: 25px; font-weight: bold;"><a href="{% url 'home' %}">Applications</a></li>
-                                <li><a href="{% url 'home' %}">Contacts</a></li>
-                                <li><a href="{% url 'import_contacts' %}">Notes</a></li>
-                                <li><a href="{% url 'file_list' %}">Files</a></li>
-                                {% if title == 'File List' %}
-                                    <div>_________________</div>
-                                    <div><a href="{% url 'file_list' %}"><span class="badge border-primary border-1 text-primary">All</a></span></div>
-                                    <div><a href="{% url 'file_list' %}?category=images"><span class="badge border-danger border-1 text-danger">Images</a></span></div>
-                                    <div><a href="{% url 'file_list' %}?category=documents"><span class="badge border-dar border-1 text-dark">Documents</a></span></div>
-                                    <div><a href="{% url 'file_list' %}?category=videos"><span class="badge border-warning border-1 text-warning">Videos</a></span></div>
-                                    <div><a href="{% url 'file_list' %}?category=others"><span class="badge border-info border-1 text-info">Others</a></span></div>
-                                    <div>_________________</div>
+                                {% if request.user.is_authenticated %}
+                                {% if title == 'Contacts' %}
+                                <li class="selected">Contacts</li>
+                                {% else %}
+                                <li style="font-size: 25px; "><a href="{% url 'home' %}">Contacts</a></li>
                                 {% endif %}
-                                <div><li><a href="{% url 'home' %}">News</a></li></div>
+                                {% if title == 'Notes' %}
+                                <li class="selected">Notes</li>
+                                {% else %}
+                                <li style="font-size: 25px; "><a href="#">Notes</a></li>
+                                {% endif %}
+                                {% if title == 'File List' %}
+                                <li class="selected">Files</li>
+                                {% if title == 'File List' or title == 'Upload File' %}
+                                <div>_________________</div>
+                                <div><a href="{% url 'main' %}"><span
+                                            class="badge border-primary border-1 text-warning">All</a></span></div>
+                                <div><a href="{% url 'file_list' %}?category=images"><span
+                                            class="badge border-danger border-1 text-warning">Images</a></span></div>
+                                <div><a href="{% url 'file_list' %}?category=documents"><span
+                                            class="badge border-dark border-1 text-warning">Documents</a></span></div>
+                                <div><a href="{% url 'file_list' %}?category=videos"><span
+                                            class="badge border-warning border-1 text-warning">Videos</a></span></div>
+                                <div><a href="{% url 'file_list' %}?category=others"><span
+                                            class="badge border-info border-1 text-warning">Others</a></span></div>
+                                <div>_________________</div>
+                                {% endif %}
+                                {% else %}
+                                <li style="font-size: 25px; "><a href="{% url 'file_list' %}">Files</a></li>
+                                {% endif %}
+                                {% if title == 'Home' %}
+                                <li class="selected">News</li>
+                                {% else %}
+                                <li style="font-size: 25px; "><a href="{% url 'main' %}">News</a></li>
+                                {% endif %}
                             </ul>
                         </td>
+                        {% else %}
+                        {% if title == 'Login' or title == 'Signup' or title == 'Password reset' or title == 'Password reset sent' or title == 'Password reset complete' or title == 'Enter new password' or title == 'Password reset successful' or title == 'Password reset unsuccessful'%}                        <li style="font-size: 25px; "><a href="{% url 'main' %}">News</a></li>
+                        {% else %}
+                        <li class="selected">News</li>
+                        {% endif %}
+                        {% endif %}
                         <!-- End Sidebar's -->
+                        {% if title == 'Login' or title == 'Signup' %}
+                        <td valign="top" class="content back">
+                            <div class="content-text">
+                                {% else %}
                         <td valign="top" class="content">
                             <div class="content-text">
+                                {% endif %}
                                 {% block content %}
-
                                 {% endblock %}
+                            </div>
                             </div>
                         </td>
 

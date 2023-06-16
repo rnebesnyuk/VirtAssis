@@ -19,21 +19,23 @@
                 <div class="card">
                     {% if file.category == 'images' %}
                     <img src="{{ file.file.url }}" class="card-img-top"">
-            <p style=" font-weight: bold">{{ file.name }}</p>
+            <p style=" font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
                     {% elif file.category == 'videos' %}
                     <p class="pic_v"></p>
-                    <p style=" font-weight: bold">{{ file.name }}</p>
+                    <p style=" font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
                     {% else %}
                     <p class="pic_t"></p>
-                    <p style="font-weight: bold">{{ file.name }}</p>({{ file.category }})
+                    <p style="font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
                     {% endif %}
                     <div class="card-body">
                         <p class="card-text">Uploaded: {{ file.upload_datetime|date:"F j, Y H:i"}}
                         </p>
                     </div>
                     <div class="file-actions">
-                        <a href="{% url 'download_file' file.id %}" download>Download</a>
-                        <a href="{% url 'delete_file' file.id %}" class="file-delete">Delete</a>
+                        <a href="{% url 'download_file' file.id %}" download><span
+                            class="badge rounded-pill bg-primary">Download</a></span>
+                        <a href="{% url 'delete_file' file.id %}" class="file-delete"><span
+                            class="badge rounded-pill bg-danger">Delete</a></span>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from filemanager.views import upload_file, file_list, delete_file, download_file, starting
+from filemanager.views import upload_file, file_list, delete_file, download_file
 
 urlpatterns = [
     path('upload/', upload_file, name='upload_file'),

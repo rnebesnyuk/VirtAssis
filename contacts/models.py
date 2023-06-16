@@ -1,6 +1,7 @@
 import random
 import uuid
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.db.models import (
@@ -21,16 +22,17 @@ class Contact(Model):
         ('male', 'Male'),
         ('female', 'Female'),
     )
-
+    
     first_name = CharField(max_length=30)
     last_name = CharField(max_length=30)
-    birthdate = DateTimeField(max_length=20, blank=True, null=True,)
+    birthdate = DateTimeField(blank=True, null=True,)
     gender = CharField(max_length=6, choices=GENDER_CHOICES)
     address = TextField(blank=True, null=True, verbose_name="Address")
     photo = ImageField(upload_to="photos/%Y/%m/%d/",blank=True, null=True,)
     slug = SlugField(max_length=55, unique=True, db_index=True, verbose_name="URL")
     time_create = DateTimeField(auto_now_add=True, verbose_name="Created")
     time_update = DateTimeField(auto_now=True, verbose_name="Updated")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         full_name = f"{self.first_name} {self.last_name}"
@@ -56,7 +58,7 @@ class Contact(Model):
     class Meta:
         verbose_name = "Contact"
         verbose_name_plural = "Contacts"
-        ordering = ["id"]
+        ordering = ["first_name", "last_name", "time_create"]
 
 
 class PhoneNumber(Model):

@@ -1,0 +1,76 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+
+{% if messages %}
+{% for msg in messages %}
+<div class="alert {%if msg.tags %} alert-{{msg.tags}} {% endif %}" role="alert">{{msg}}</div>
+{% endfor %}
+{% endif %}
+
+<h1>Погода для <b>{{ weather.0.city }}</b></h1>
+{% for w in weather %}
+{% if not w.done %}
+<table class="table-primary">
+    <tr>
+        <td>
+            <img src="{{ w.icon }}" width="100">
+        </td>
+        <td>
+            Температура °C {{ w.mintemp }}°-{{ w.maxtemp }}°<br>
+            Вологість, % {{ w.avghumidity }}<br>
+            Вітер, м/сек {{ w.maxwind }}<br>
+            {{ w.date }}
+        </td>
+</table>
+{% else %}
+<p>NONE</p>
+{% endif %}
+{% endfor %}
+
+<h1>Новини</h1>
+<table class="table">
+    {% for n in news %}
+    {% if not n.done %}
+
+    <tr>
+        <td>
+            <a href="{{ n.link }}" target="_blank"><img src="{{ n.img }}" width="100"></a>
+        </td>
+        <td>
+        <a href="{{ n.link }}" target="_blank">
+            <h7>{{ n.title }}</h7>
+            <br>
+            <span style="font-size:14px">Джерело: {{ n.source }} | {{ n.published }}</span>
+        </a>
+        </td>
+    </tr>
+    {% else %}
+    <p>{{ n.title }}</p>
+    {% endif %}
+
+    {% endfor %}
+</table>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+    .table-primary {
+    width: 30%;
+    float: left;
+      box-shadow:
+       inset 0 -3em 3em rgba(0,0,0,0.1),
+             0 0  0 2px rgb(255,255,255),
+             0.3em 0.3em 1em rgba(0,0,0,0.3);
+             margin:10px;
+             font-size:15px;
+             line-height:20px;
+    }
+    .table a {color:#000}
+
+</style>
+</div>
+{% endblock %}
