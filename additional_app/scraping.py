@@ -16,7 +16,8 @@ def news_rss():
         #'https://www.unn.com.ua/rss/news_uk.xml': 'Українські Національні Новини (УНН)',
         #'https://www.pravda.com.ua/rss/view_news/': 'Українська правда',
         #'https://nv.ua/ukr/rss/all.xml': 'Новини NV',
-
+        'https://focus.ua/modules/rss.php': 'Фокус',
+        'https://www.liga.net/newsua/all/rss.xml': 'ЛІГА.Новини',
     }
     try:
         print('Starting the scraping tool')
