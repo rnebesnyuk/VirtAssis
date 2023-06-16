@@ -4,6 +4,7 @@ import cloudinary.uploader
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from filemanager.utils import DataMixin, menu, apps
@@ -22,18 +23,23 @@ def upload_file(request):
         if file_extension not in allowed_formats:
             error_message = "Unsupported file format. Please try a different file."
             return render(request, 'upload_file.html', {'title': title, 'menu': menu, 'error_message': error_message})
+
         upload_result = cloudinary.uploader.upload(file, resource_type='raw', allowed_formats=allowed_formats)
         file_url = upload_result['secure_url']
 
-        File.objects.create(name=name, file=file_url, category=category)
+        # Use request.user to get the current user
+        File.objects.create(name=name, file=file_url, category=category, user=request.user)
         return redirect('file_list')
 
     return render(request, 'upload_file.html', {'title': title, 'menu': menu})
 
 
+
+@login_required
 def file_list(request):
     category = request.GET.get('category')
-    files = File.objects.all().order_by('-upload_datetime')
+    user = request.user
+    files = File.objects.filter(user=user).order_by('-upload_datetime')
 
     if category:
         files = files.filter(category=category)
