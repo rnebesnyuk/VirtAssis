@@ -11,6 +11,7 @@ from filemanager.utils import DataMixin, menu, apps
 from .models import File
 
 
+@login_required
 def upload_file(request):
     title = "Upload File"
     if request.method == 'POST':
@@ -34,7 +35,6 @@ def upload_file(request):
     return render(request, 'upload_file.html', {'title': title, 'menu': menu})
 
 
-
 @login_required
 def file_list(request):
     category = request.GET.get('category')
@@ -55,6 +55,7 @@ def file_list(request):
     return render(request, 'file_list.html', {'files': files, 'title': title, 'menu': menu, 'apps': apps, 'cloudinary': cloudinary, 'categories': categories})
 
 
+@login_required
 def delete_file(request, file_id):
     file = File.objects.get(id=file_id)
     public_id = file.file.url  # Get the file URL
@@ -63,6 +64,7 @@ def delete_file(request, file_id):
     return redirect('file_list')
 
 
+@login_required
 def download_file(request, file_id):
     file = File.objects.get(id=file_id)
     file_url = file.file
