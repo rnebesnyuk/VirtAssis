@@ -2,7 +2,7 @@ import os
 
 import cloudinary.uploader
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
@@ -68,19 +68,19 @@ def file_list(request):
 
 @login_required
 def delete_file(request, file_id):
-    file = File.objects.get(id=file_id)
-    public_id = file.file.url  # Get the file URL
-    cloudinary.uploader.destroy(public_id)  # Delete the file from Cloudinary
-    file.delete()  # Delete the file record from the database
+    file = get_object_or_404(File, id=file_id, user=request.user)
+    public_id = file.file.url
+    cloudinary.uploader.destroy(public_id)
+    file.delete()
     return redirect('file_list')
 
 
 @login_required
 def download_file(request, file_id):
-    file = File.objects.get(id=file_id)
+    file = get_object_or_404(File, id=file_id, user=request.user)
     file_url = file.file
-    file_extension = os.path.splitext(file.file.name)[1]  # Extract the file extension from the name
-    filename = file.name + file_extension  # Add the file format to the filename
+    file_extension = os.path.splitext(file.file.name)[1]
+    filename = file.name + file_extension
     response = HttpResponse(file_url, content_type='application/octet-stream')
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
     return response
