@@ -19,7 +19,9 @@
             <div class="col-sm-4">
                 <div class="card">
                     {% if file.category == 'images' %}
-                    <img src="{{ file.file.url }}" class="card-img-top">
+                    <a href="{{ file.file.url }}" target="_blank">
+                        <img src="{{ file.file.url }}" class="card-img-top">
+                    </a>
                     <p style="font-weight: bold">Title: {{ file.name }}</p>
                     Category: {{ file.category }}
                     {% elif file.category == 'videos' %}
