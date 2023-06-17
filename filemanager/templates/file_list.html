@@ -7,8 +7,9 @@
     <h1>File List</h1>
 </div>
 <div class="col-sm-4">
-    <a href="{% url 'upload_file' %}"><button type="submit" class="btn btn-success rounded-pill btn-lg">Upload
-            File</button></a>
+    <a href="{% url 'upload_file' %}">
+        <button type="submit" class="btn btn-success rounded-pill btn-lg">Upload File</button>
+    </a>
 </div>
 <div class="row">
     <div class="file-list">
@@ -18,24 +19,28 @@
             <div class="col-sm-4">
                 <div class="card">
                     {% if file.category == 'images' %}
-                    <img src="{{ file.file.url }}" class="card-img-top"">
-            <p style=" font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
+                    <img src="{{ file.file.url }}" class="card-img-top">
+                    <p style="font-weight: bold">Title: {{ file.name }}</p>
+                    Category: {{ file.category }}
                     {% elif file.category == 'videos' %}
                     <p class="pic_v"></p>
-                    <p style=" font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
+                    <p style="font-weight: bold">Title: {{ file.name }}</p>
+                    Category: {{ file.category }}
                     {% else %}
                     <p class="pic_t"></p>
-                    <p style="font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
+                    <p style="font-weight: bold">Title: {{ file.name }}</p>
+                    Category: {{ file.category }}
                     {% endif %}
                     <div class="card-body">
-                        <p class="card-text">Uploaded: {{ file.upload_datetime|date:"F j, Y H:i"}}
-                        </p>
+                        <p class="card-text">Uploaded: {{ file.upload_datetime|date:"F j, Y H:i" }}</p>
                     </div>
                     <div class="file-actions">
-                        <a href="{% url 'download_file' file.id %}" download><span
-                            class="badge rounded-pill bg-primary">Download</a></span>
-                        <a href="{% url 'delete_file' file.id %}" class="file-delete"><span
-                            class="badge rounded-pill bg-danger">Delete</a></span>
+                        <a href="{% url 'download_file' file.id %}" download>
+                            <span class="badge rounded-pill bg-primary">Download</span>
+                        </a>
+                        <a href="{% url 'delete_file' file.id %}" class="file-delete">
+                            <span class="badge rounded-pill bg-danger">Delete</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -61,7 +66,6 @@
     {% endif %}
 </div>
 {% endif %}
-
 
 <style>
     body {
