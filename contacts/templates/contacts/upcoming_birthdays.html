@@ -24,7 +24,7 @@
         {% for contact in contacts %}
         <tbody>
             <tr>
-                <th scope="row">{{ contact.id }}</th>
+                <th scope="row">{{ forloop.counter}}</th>
                 {% if contact.photo %}
                 <td><img src="{{contact.photo.url}}" width="64" height="64"></td>
                 {% else %}
@@ -38,13 +38,27 @@
                 </td>
                 {% endif %}
                 {% endif %}
-                <td>{{ contact.first_name }}</td>
-                <td>{{ contact.last_name }}</td>
-                <td>{{ contact.birthdate.date }}</td>
-                <td>{{ contact.phones.first }} - {{ contact.phones.first.field_type}}</td>
-                <td>{{ contact.emails.first }} - {{ contact.emails.first.field_type}}</td>
-                <td>{{ contact.gender }}</td>
-                <td>{{ contact.address }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.first_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.last_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.birthdate.date }}</td>
+                <td style="display: table-cell; vertical-align: middle;">
+                    {% for phone in contact.phones.all %}
+                    {% if phone.phone %}
+                    {{ phone.phone }}{% if phone.field_type %} - {{ phone.field_type }}{% endif %}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="display: table-cell; vertical-align: middle;">
+                    {% for email in contact.emails.all %}
+                    {% if email.email %}
+                    {{ email.email }}{% if email.field_type %} - {{ email.field_type }}{% endif %}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.gender }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.address }}</td>
             </tr>
         </tbody>
         {% endfor %}

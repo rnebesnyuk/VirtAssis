@@ -1,6 +1,7 @@
 {% extends 'contacts/base.html' %}
 
 {% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <div>
     {% if messages %}
     {% for msg in messages %}
@@ -17,8 +18,10 @@
     <div class="col-sm-6">
         <p><label for="{{ f.id_for_label }}">{{f.label}}:</label></p>
         <p class="form-control" type="file" id="formFile">{{ f }}</p>
+        <div class="fit2">
         <button type="submit" class="btn btn-success rounded-pill px-3">Import Contacts</button>
         <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+        </div>
     </div>
     {% endfor %}
 </form>

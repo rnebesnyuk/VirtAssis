@@ -101,32 +101,39 @@ ul.list-articles li {
 
 }
 
-.pic_m{
+.pic_m {
 	background: url('../images/m_icon.png');
 	width: 64px;
 	height: 64px;
 
 }
 
-.pic_f{
+.pic_f {
 	background: url('../images/f_icon.png');
 	width: 64px;
 	height: 64px;
 
 }
 
-.pic_t{
+.pic_t {
 	background: url('../images/folder.png');
-	width: 320px;
-	height: 320px;
+	width: 128px;
+	height: 128px;
 
 }
 
-.pic_v{
+.pic_v {
 	background: url('../images/video.jpg');
-	width: 320px;
-	height: 320px;
+	width: 128px;
+	height: 128px;
 
+}
+
+.image-320 {
+	max-width: 320px;
+	max-height: 320px;
+	width: auto;
+	height: auto;
 }
 
 .back {
@@ -433,14 +440,14 @@ ul.lang-list li a:hover {
 
 #footer {
 	box-sizing: border-box;
-
 	background: #fae204;
-	padding: 25px;
+	padding: 20px;
 	color: #0c0000;
 	font-size: 14px;
 	font-family: Verdana, Geneva, Arial, Helvetica;
 	text-align: start;
 	overflow: hidden;
+	height: 60px;
 }
 
 #footer a {
@@ -770,9 +777,28 @@ ul.mainmenu li.user-button__image {
 
 .form-group {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	margin-bottom: 20px;
 	align-items: stretch;
+}
+
+.flexi {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.flex-item {
+	flex-basis: calc(50% - 10px);
+	/* Adjust the width of each item as needed */
+	margin: 5px;
 }
 
 .left-chapters {
@@ -832,7 +858,8 @@ ul.mainmenu li.user-button__image {
 }
 
 .table-page tr {
-	height: 100%;
+	width: fit-content;
+
 }
 
 .table-content {
@@ -842,7 +869,14 @@ ul.mainmenu li.user-button__image {
 }
 
 .content-text {
-	margin: 50px 0 0 20px;
+	margin: 50px 20px 0 20px;
+	color: #000;
+	font-size: 20px;
+	font-family: Yandex Sans Display Light;
+}
+
+.content-text2 {
+	margin: 0 20px 0 20px;
 	color: #000;
 	font-size: 20px;
 	font-family: Yandex Sans Display Light;
@@ -863,7 +897,18 @@ ul.mainmenu li.user-button__image {
 }
 
 .fit2 {
-	margin: 25px 0 20px 0px;
+	margin: 25px 10px 20px 0px;
+}
+
+.fit3 {
+	margin: 90px 10px 20px 0px;
+}
+
+.fit4 {
+	margin: 25px 10px 20px 35px;
+	font-family: 'Arial';
+	color: #464242;
+	text-decoration: none;
 }
 
 .categories {
@@ -919,7 +964,23 @@ ul.mainmenu li.user-button__image {
 	margin: 30px 0 0 0;
 }
 
+.margin2 {
+	margin: 60px 0 0 30px;
+}
+
 .align {
 	display: flex;
 	flex-direction: column;
+}
+
+.height {
+	height: 30px;
+}
+
+.cust {
+	margin: 33px 50px 0 -10px;
+}
+
+.wide-select {
+	width: 232px; 
 }
