@@ -3,71 +3,80 @@
 {% block title %}File List{% endblock %}
 
 {% block content %}
-<div class="col-sm-4">
-    <h1>File List</h1>
-</div>
-<div class="col-sm-4">
-    <a href="{% url 'upload_file' %}">
-        <button type="submit" class="btn btn-success rounded-pill btn-lg">Upload File</button>
-    </a>
-</div>
-<div class="row">
-    <div class="file-list">
-        {% if files %}
-        {% for file in files %}
-        <div class="margin">
-            <div class="col-sm-4">
-                <div class="card">
-                    {% if file.category == 'images' %}
-                    <a href="{{ file.file.url }}" target="_blank">
-                        <img src="{{ file.file.url }}" class="card-img-top">
-                    </a>
-                    <p style="font-weight: bold">Title: {{ file.name }}</p>
-                    Category: {{ file.category }}
-                    {% elif file.category == 'videos' %}
-                    <p class="pic_v"></p>
-                    <p style="font-weight: bold">Title: {{ file.name }}</p>
-                    Category: {{ file.category }}
-                    {% else %}
-                    <p class="pic_t"></p>
-                    <p style="font-weight: bold">Title: {{ file.name }}</p>
-                    Category: {{ file.category }}
-                    {% endif %}
-                    <div class="card-body">
-                        <p class="card-text">Uploaded: {{ file.upload_datetime|date:"F j, Y H:i" }}</p>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="content-text2">
+    <div class="col-sm-4">
+        <h1>File List</h1>
+    </div>
+    <div class="col-sm-12">
+        <a href="{% url 'upload_file' %}"><button type="submit" class="btn btn-success rounded-pill">Upload
+                File</button></a>
+    </div>
+    <div  class="fit2">
+        <table>
+
+
+            {% if files %}
+            {% for file in files %}
+            <div class="flexi">
+                <td>
+                    <div class="margin2">
+                        <div class="">
+                            <div class="">
+                                {% if file.category == 'images' %}
+                                <a href="{{ file.file.url }}" target="_blank">
+                                    <img src="{{ file.file.url }}" style="max-width: 128px; max-height: 128px;"></a>
+                                <p style=" font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
+                                {% elif file.category == 'videos' %}
+                                <p class="pic_v"></p>
+                                <p style=" font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
+                                {% else %}
+                                <p class="pic_t"></p>
+                                <p style="font-weight: bold">Title: {{ file.name }}</p>Category: {{ file.category }}
+                                {% endif %}
+                                <div class="card-body">
+                                    <p class="card-text">Uploaded: {{ file.upload_datetime|date:"F j, Y H:i"}}
+                                    </p>
+                                </div>
+                                <div class="file-actions">
+                                    <a href="{% url 'download_file' file.id %}" download><span
+                                            class="badge rounded-pill bg-primary">Download</a></span>
+                                    <a href="{% url 'delete_file' file.id %}" class="file-delete"><span
+                                            class="badge rounded-pill bg-danger">Delete</a></span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="file-actions">
-                        <a href="{% url 'download_file' file.id %}" download>
-                            <span class="badge rounded-pill bg-primary">Download</span>
-                        </a>
-                        <a href="{% url 'delete_file' file.id %}" class="file-delete">
-                            <span class="badge rounded-pill bg-danger">Delete</span>
-                        </a>
-                    </div>
-                </div>
+                </td>
             </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-sm-12 fit2">
+            <p>No files found.</p>
+            </div>
+            {% endif %}
+        </table>
+    </div>
+    <div class="fit3">
+        {% if files.has_other_pages %}
+        <div class="list-pages">
+            {% if files.has_previous %}
+            <a href="?page=1">&laquo;</a>
+            <a href="?page={{ files.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current-page">{{ files.number }}</span>
+            <span class="total-pages">of {{ files.paginator.num_pages }}</span>
+            {% if files.has_next %}
+            <a href="?page={{ files.next_page_number }}">next</a>
+            <a href="?page={{ files.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
         </div>
-        {% endfor %}
-        {% else %}
-        <p>No files found.</p>
         {% endif %}
     </div>
 </div>
 
-{% if files.has_other_pages %}
-<div class="list-pages">
-    {% if files.has_previous %}
-    <a href="?page=1">&laquo;</a>
-    <a href="?page={{ files.previous_page_number }}">Previous</a>
-    {% endif %}
-    <span class="current-page">{{ files.number }}</span>
-    <span class="total-pages">of {{ files.paginator.num_pages }}</span>
-    {% if files.has_next %}
-    <a href="?page={{ files.next_page_number }}">Next</a>
-    <a href="?page={{ files.paginator.num_pages }}">&raquo;</a>
-    {% endif %}
-</div>
-{% endif %}
 
 <style>
     body {

@@ -4,9 +4,11 @@ import cloudinary.uploader
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 
-from filemanager.utils import menu, apps
+from filemanager.utils import DataMixin, menu, apps
 from .models import File
 
 
@@ -18,45 +20,33 @@ def upload_file(request):
         file = request.FILES['file']
         category = request.POST['category']
 
-        # Define allowed formats for each category
-        allowed_formats = {
-            'images': ['jpg', 'jpeg', 'png', 'gif'],
-            'documents': ['pdf', 'doc', 'docx', 'txt'],
-            'videos': ['mp4', 'mov'],
-        }
-
-        # Get the file extension from the uploaded file
-        file_extension = os.path.splitext(file.name)[1][1:].lower()
-
-        if category in allowed_formats:
-            # Check if the file format is allowed for the selected category
-            if file_extension not in allowed_formats[category]:
-                error_message = f"Unsupported file format for the '{category}' category. Please try a different file."
-                return render(request, 'upload_file.html', {'title': title, 'menu': menu, 'error_message': error_message})
-        else:
-            # For the "others" category, allow all file formats
-            allowed_formats['others'] = []
-
-        upload_result = cloudinary.uploader.upload(file, resource_type='raw')
-        file_url = upload_result['secure_url']
-
-        File.objects.create(name=name, file=file_url, category=category, user=request.user)
-        return redirect('file_list')
-
+        allowed_formats = ['pdf', 'doc', 'csv', 'docx', 'rar', 'jpg', 'png', 'doc', 'zip', 'mp3', 'mp4', 'mov', 'gif', 'dmg', 'txt', 'jpeg']
+        file_extension = os.path.splitext(file.name)[1][1:].lower()  # Extract the file extension from the uploaded file
+        if file_extension not in allowed_formats:
+            error_message = "Unsupported file format. Please try a different file."
+            return render(request, 'upload_file.html', {'title': title, 'menu': menu, 'error_message': error_message})
+        try:
+            upload_result = cloudinary.uploader.upload(file, resource_type='raw', allowed_formats=allowed_formats)
+            file_url = upload_result['secure_url']
+            File.objects.create(name=name, file=file_url, category=category, user=request.user)
+            return redirect('file_list')
+        except Exception as e:
+            error_message = {e}
+            return render(request, 'upload_file.html', {'title': title, 'menu': menu, 'error_message': error_message})
+        
     return render(request, 'upload_file.html', {'title': title, 'menu': menu})
 
 
 @login_required
 def file_list(request):
     category = request.GET.get('category')
-    user = request.user
-    files = File.objects.filter(user=user).order_by('-upload_datetime')
+    files = File.objects.filter(user=request.user).order_by('-upload_datetime')
 
     if category:
         files = files.filter(category=category)
 
     # Pagination
-    paginator = Paginator(files, 4)
+    paginator = Paginator(files, 6)
     page_number = request.GET.get('page')
     files = paginator.get_page(page_number)
 

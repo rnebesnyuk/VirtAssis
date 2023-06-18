@@ -1,0 +1,66 @@
+{% extends 'contacts/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% if messages %}
+{% for msg in messages %}
+<div class="alert {%if msg.tags %} alert-{{msg.tags}} {% endif %}" role="alert">{{msg}}</div>
+{% endfor %}
+{% endif %}
+<div class="form-error">{{ form.non_field_errors }}</div>
+
+
+<h1>Edit note:</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div style="padding: 10px">
+        <label> Note's title > {{ form.name }}</label>
+        <span>{{ form.errors.name }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Description >
+            {{ form.description }}
+        </label>
+        <span>{{ form.errors.description }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Priority >>>
+            {{ form.importance }}
+        </label>
+        <span>{{ form.errors.importance }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Note's tags >
+            <select name="tags" multiple="multiple" style="width: 248px;">
+                {% for tag in tags %}
+                <option value="{{tag.name}}">{{tag.name}}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <div class="fit2">
+            <div class="col-sm-2">
+                <a href="{% url 'add_tag' %}"><button type="button" class="btn btn-primary rounded-pill">+ Create new tag</button></a>
+            </div>
+            <a href="{% url 'notes' %}"><button type="button" class="btn btn-primary rounded-pill">Go back to
+                    notes</button></a>
+        </div>
+    </div>
+    <div class="margin">
+        <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
+        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+    </div>
+
+</form>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+{% endblock %}
