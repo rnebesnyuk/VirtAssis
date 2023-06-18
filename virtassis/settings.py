@@ -16,6 +16,8 @@ import cloudinary
 import cloudinary_storage
 import os
 from dotenv import load_dotenv
+from django.conf import settings
+import crispy_forms
 
 load_dotenv()
 
@@ -52,6 +54,8 @@ INSTALLED_APPS = [
     "additional_app",
     "users",
     "googlecharts",
+    "noteapp",
+    "crispy_forms"
 ]
 
 MIDDLEWARE = [
@@ -166,3 +170,5 @@ EMAIL_USE_TLS = False
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

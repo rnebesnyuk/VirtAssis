@@ -13,9 +13,15 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 from .forms import RegisterForm, LoginForm
 from .utils import DataMixin, menu, apps
+from contacts.models import Contact
+from noteapp.models import Note
+from filemanager.models import File
 
 class RegisterUser(CreateView):
     form_class = RegisterForm
@@ -58,7 +64,7 @@ def logout_user(request):
 
 
 class CustomLoginView(LoginView):
-    template_name = 'users/signin2.html'
+    template_name = 'users/signin.html'
     form_class = LoginForm
 
 
@@ -88,3 +94,28 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     
     def get_success_url(self):
         return reverse_lazy("login")
+    
+
+@login_required
+def profile(request):
+
+    number_of_contacts = Contact.objects.filter(user_id=request.user.pk)
+    contacts = number_of_contacts.count()
+
+    number_of_notes = Note.objects.filter(user_id=request.user.pk)
+    notes = number_of_notes.count()
+
+    number_of_files = File.objects.filter(user_id=request.user.pk)
+    files = number_of_files.count()
+    
+
+    context = {
+        "menu": menu,
+        "apps": apps,
+        "title": "My profile",
+        'contacts': contacts,
+        'notes': notes,
+        'files': files,
+    }
+
+    return render(request, 'users/profile.html', context)

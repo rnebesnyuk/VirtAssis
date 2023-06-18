@@ -28,6 +28,7 @@ urlpatterns = [
     path('files/', include('filemanager.urls')),
     path('contacts/', include('contacts.urls')),
     path('users/', include('users.urls')),
+    path('notes/', include('noteapp.urls')),
 ]
 
 if settings.DEBUG:
