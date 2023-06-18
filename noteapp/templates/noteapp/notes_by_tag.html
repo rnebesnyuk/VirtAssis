@@ -34,8 +34,8 @@
             <tr>
                 <td style="display: table-cell; vertical-align: middle;">{{ note.name }}</td>
                 <td style="display: table-cell; vertical-align: middle;">{{ note.description|slice:":20" }}{% if note.description|length > 50 %}...{% endif %}</td>
-                <td style="display: table-cell; vertical-align: middle; padding-left: 20px;">{{ note.importance }}</td>
-                <td style="display: table-cell; vertical-align: middle; padding-left: 20px;">
+                <td style="display: table-cell; vertical-align: middle; padding-left: 45px;">{{ note.importance }}</td>
+                <td style="display: table-cell; vertical-align: middle; padding-left: 45px;">
                     {% if note.done %}
                         &#x2713;
                     {% else %}

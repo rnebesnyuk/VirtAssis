@@ -1,7 +1,7 @@
 {% extends 'contacts/base.html' %}
 
 {% block content %}
-
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 {% if messages %}
 {% for msg in messages %}
 <div class="alert {%if msg.tags %} alert-{{msg.tags}} {% endif %}" role="alert">{{msg}}</div>
@@ -48,7 +48,7 @@
             </div>
             <form action="{% url 'search' %}" method="get" class="col-sm-5 d-flex mt-3 mt-lg-0" role="search">
                 <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-success" type="submit">Search</button>
             </form>
         </div>
     </div>
@@ -66,7 +66,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Gender</th>
                 <th scope="col">Address</th>
-                <th scope="col">Edit</th>
+                <th scope="col" style="padding-left: 48px;">Edit</th>
                 <th scope="col">Delete</th>
             </tr>
         </thead>
@@ -86,23 +86,29 @@
                 </td>
                 {% endif %}
                 {% endif %}
-                <td>{{ contact.first_name }}</td>
-                <td>{{ contact.last_name }}</td>
-                <td>{{ contact.birthdate.date }}</td>
-                <td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.first_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.last_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.birthdate.date }}</td>
+                <td style="display: table-cell; vertical-align: middle;">
                     {% for phone in contact.phones.all %}
                     {% if phone.phone %}
-                    {{ phone.phone }} - {{ phone.field_type }}
+                    {{ phone.phone }}{% if phone.field_type %} - {{ phone.field_type }}{% endif %}
                     {% if not forloop.last %}</br>{% endif %}
                     {% endif %}
                     {% endfor %}
                 </td>
-                <td>{{ contact.emails.first }}</td>
-                <td>{{ contact.gender }}</td>
-                <td>{{ contact.address }}</td>
-                <td><a href="{% url 'contact_edit' contact.pk %}"><button type="button"
-                            class="btn btn-warning rounded-pill">Edit</button></a></td>
-                <td><a href="{% url 'contact_delete' contact.pk %}"><button type="button"
+                <td style="display: table-cell; vertical-align: middle;">
+                    {% for email in contact.emails.all %}
+                    {% if email.email %}
+                    {{ email.email }}{% if email.field_type %} - {{ email.field_type }}{% endif %}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.gender }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.address }}</td>
+                <td style="display: table-cell; vertical-align: middle;"><a href="{% url 'personal_info_edit' contact.slug %}"><button type="button" class="btn btn-outline-info"><span class="glyphicon glyphicon-user"></span></button></a><a href="{% url 'phone_edit' contact.slug %}"><button type="button" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-phone"></span></button></a><a href="{% url 'email_edit' contact.slug %}"><button type="button" class="btn btn-outline-info"><span class="glyphicon glyphicon-envelope"></span></button></a></td>
+                <td style="display: table-cell; vertical-align: middle;"><a href="{% url 'contact_delete' contact.slug %}"><button type="button"
                             class="btn btn-danger rounded-pill">Delete</button></a></td>
             </tr>
         </tbody>

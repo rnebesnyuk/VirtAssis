@@ -1,6 +1,8 @@
 {% extends 'contacts/base.html' %}
 
 {% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
 <h1>Delete Contact</h1>
 <p>Are you sure you want to delete <strong>{{contact.first_name}} {{contact.last_name}}</strong> contact?</p>
 <form method="post">

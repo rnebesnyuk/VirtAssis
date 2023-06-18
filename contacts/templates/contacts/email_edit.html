@@ -11,23 +11,29 @@
 {% endif %}
 <div class="form-error">{{ form.non_field_errors }}</div>
 
-
-<h1>Edit contact <strong>{{contact.first_name}} {{contact.last_name}}:</strong></h1>
+<h1>Edit <strong>{{ contact }}'s</strong> emails:</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
     <div>
-        <div>
-            {% for f in form %}
-            <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        {{ email_formset.management_form }}
+        {% for email_form in email_formset %}
+
+        <div class="email-form margin">
+
+            {% for f in email_form %}
+            <p>
+                <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}:</label>
+                {{ f }}
+            </p>
             <div class="form-error">{{ f.errors }}</div>
             {% endfor %}
+            {% endfor %}
         </div>
-    </div>
-    <div class="margin">
-        <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
-        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
-    </div>
+
+        <div class="fit2">
+            <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
+            <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+        </div>
 
 </form>
 

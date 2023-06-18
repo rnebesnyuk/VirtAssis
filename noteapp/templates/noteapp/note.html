@@ -1,34 +1,60 @@
-{% extends "noteapp/base.html" %}
+{% extends 'contacts/base.html' %}
+{% load custom_filters %}
+
 
 {% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
-<form method="POST" action="{% url 'noteapp:note' %}">
+
+<h1>Add note:</h1>
+<form method="POST" action="{% url 'add_note' %}">
     {% csrf_token %}
     <div style="padding: 10px">
-        <label> Ім`я нотатки:
-            {{ form.name }}
-        </label>
+        <label> Note's title >> {{ form.name }}</label>
         <span>{{ form.errors.name }}</span>
     </div>
     <div style="padding: 10px">
-        <label> Опис нотатки:
+        <label> Description >
             {{ form.description }}
         </label>
         <span>{{ form.errors.description }}</span>
     </div>
     <div style="padding: 10px">
-        <label> Вибір тега:
-            <a href="{% url 'noteapp:tag' %}" role="button">Додати тєг</a>
-            <select name="tags" multiple="multiple">
+        <label> Priority >>>
+            {{ form.importance }}
+        </label>
+        <span>{{ form.errors.importance }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Note's tags >
+            <select name="tags" multiple="multiple" style="width: 250px;">
                 {% for tag in tags %}
                 <option value="{{tag.name}}">{{tag.name}}</option>
                 {% endfor %}
             </select>
         </label>
+        <div class="fit2">
+            <a href="{% url 'add_tag' %}"><button type="button" class="btn btn-primary rounded-pill">+ Create new
+                    tag</button></a>
+            <a href="{% url 'notes' %}"><button type="button" class="btn btn-primary rounded-pill">Go back to
+                    notes</button></a>
+        </div>
     </div>
-    <div class="grid">
-        <button type="submit">Прийняти</button>
-        <button type="reset" class="secondary">Скинути</button>
+    <div class="fit2">
+        <button type="submit" class="btn btn-success rounded-pill px-3">Submit note</button>
+        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
     </div>
 </form>
+<style>
+    .wide-select {
+        width: 300px;  /* Adjust the width value as needed */
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
 {% endblock %}
