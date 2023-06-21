@@ -17,7 +17,6 @@ import cloudinary_storage
 import os
 from dotenv import load_dotenv
 from django.conf import settings
-import crispy_forms
 
 load_dotenv()
 
@@ -37,7 +36,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'virtassis-2.fly.dev', 'virtassis-3.fly.dev']
 
 
 # Application definition
@@ -67,6 +66,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://virtassis-2.fly.dev', 'https://virtassis-3.fly.dev']
 
 ROOT_URLCONF = "virtassis.urls"
 
@@ -141,11 +142,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Kiev"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

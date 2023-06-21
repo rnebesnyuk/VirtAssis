@@ -15,7 +15,7 @@
 </div>
 <div class="fit2">Title: <strong>{{note.name}}</strong></div>
 <p>Description: <b>{{note.description}}</b></p>
-<p>Priority: <b>{{note.importance}}</b></p>
+<p>Priority: <b>{% if note.importance == '1 - low' %}low{% elif note.importance == '2 - medium'%}medium{% elif note.importance == '3 - high' %}high{% endif %}</b></p>
 <p>Time of creation: <kbd>{{note.created}}</kbd></p>
 {% if note.done %}
 <p>

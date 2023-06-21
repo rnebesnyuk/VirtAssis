@@ -1,13 +1,24 @@
-FROM python:3.10.4
+ARG PYTHON_VERSION=3.11-slim-buster
 
-ENV APP_HOME /app
+FROM python:${PYTHON_VERSION}
 
-WORKDIR $APP_HOME
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY . .
+RUN mkdir -p /code
 
-RUN pip install -r requirements.txt
+WORKDIR /code
 
-EXPOSE 8050
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    rm -rf /root/.cache/
+COPY . /code
 
-CMD ["python", "virtassis/manage.py", "runserver", "0.0.0.0:8050"]
+ENV SECRET_KEY "EDku4Q5lHRmuOHGtxaGHDi0VW53XZS675BWB7obgSfX9p0IXZg"
+RUN python manage.py collectstatic --noinput
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

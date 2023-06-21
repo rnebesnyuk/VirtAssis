@@ -1,0 +1,38 @@
+# fly.toml app configuration file generated for virtassis-3 on 2023-06-20T21:55:54+03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "virtassis-3"
+primary_region = "ams"
+console_command = "/code/manage.py shell"
+
+[deploy]
+release_command = "python manage.py migrate"
+
+[env]
+  CLOUDINARY_API_KEY = "943472625595868"
+  CLOUDINARY_API_SECRET = "DxeJGfQOvVMCMDi0O1ynN3LEKjg"
+  CLOUDINARY_CLOUD_NAME = "deomhl2q4"
+  DATABASE_HOST = "snuffleupagus.db.elephantsql.com"
+  DATABASE_NAME = "rzouzden"
+  DATABASE_PASSWORD = "gqpKA_k5fBu48Ua5FP7wARy1J_vtz3VZ"
+  DATABASE_PORT = "5432"
+  DATABASE_USER = "rzouzden"
+  EMAIL_HOST = "smtp.meta.ua"
+  EMAIL_HOST_PASSWORD = "Goitlearn567234"
+  EMAIL_HOST_USER = "nebesnyukr@meta.ua"
+  EMAIL_PORT = "465"
+  PORT = "8000"
+  SECRET_KEY = "EDku4Q5lHRmuOHGtxaGHDi0VW53XZS675BWB7obgSfX9p0IXZg"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[statics]]
+  guest_path = "/code/static"
+  url_prefix = "/static/"
