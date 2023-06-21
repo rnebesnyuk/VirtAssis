@@ -38,8 +38,8 @@
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
-                <th scope="col"><a href="{% url 'by_priority' %}"><span class="glyphicon glyphicon-resize-vertical"></span></a> Priority<a href="{% url 'by_priority_rev' %}"><span class="glyphicon glyphicon-resize-vertical"></span></a></th>
-                <th scope="col"><a href="{% url 'by_done' %}"><span class="glyphicon glyphicon-resize-vertical"></span></a> Done <a href="{% url 'by_undone' %}"><span class="glyphicon glyphicon-resize-vertical"></span></a></th>
+                <th scope="col"><a href="{% url 'by_priority' %}">🠛</a><a href="{% url 'by_priority_rev' %}">🠙</a> Priority</th>
+                <th scope="col"><a href="{% url 'by_done' %}">🠛</a><a href="{% url 'by_undone' %}">🠙</a> Done</th>
                 <th scope="col">Created</th>
                 <th scope="col">Tags</th>
                 <th scope="col">Actions</th>
@@ -51,7 +51,7 @@
             <tr>
                 <td style="display: table-cell; vertical-align: middle;">{{ note.name }}</td>
                 <td style="display: table-cell; vertical-align: middle;">{{ note.description|slice:":20" }}{% if note.description|length > 20 %}...{% endif %}</td>
-                <td style="display: table-cell; vertical-align: middle; padding-left: 45px;">{{ note.importance }}</td>
+                <td style="display: table-cell; vertical-align: middle; padding-left: 45px;">{% if note.importance == '1 - low' %}low{% elif note.importance == '2 - medium'%}medium{% elif note.importance == '3 - high' %}high{% endif %}</td>
                 <td style="display: table-cell; vertical-align: middle; padding-left: 45px;">
                     {% if note.done %}
                         &#x2713;

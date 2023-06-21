@@ -148,35 +148,32 @@ def create_contact(request):
             if similar_contacts:
                 contact.last_name = f"{contact_form.cleaned_data['last_name']} ({len(similar_contacts)})"
             
-            
+            contact.save()
 
             email = email_form.save(commit=False)
             email.contact = contact
-            
+            email.save()
 
             for form in phone_number_forms:
                 if form.cleaned_data['phone'] != '':
                     phone_number = form.save(commit=False)
                     phone_number.contact = contact
+                    if phone_number:
+                        if not validate_phone_number(phone_number.phone):
+                            form.add_error('phone', 'Invalid phone number')
+                            context = {
+            "contact_form": contact_form,
+            "phone_number_forms": phone_number_forms,
+            "email_form": email_form,
+            "menu": menu,
+            "apps": apps,
+            "title": "Add Contact",
+        }
 
-                    if not validate_phone_number(phone_number.phone):
-                        form.add_error('phone', 'Invalid phone number')
-                        context = {
-        "contact_form": contact_form,
-        "phone_number_forms": phone_number_forms,
-        "email_form": email_form,
-        "menu": menu,
-        "apps": apps,
-        "title": "Add Contact",
-    }
-
-                        return render(request, "contacts/add_contact.html", context)
-                    
-
-            contact.save()
-            phone_number.save()
-            email.save()
-
+                            return render(request, "contacts/add_contact.html", context)
+                        
+                        phone_number.save()
+                        
             full_name = f"{contact_form.cleaned_data['first_name']} {contact_form.cleaned_data['last_name']}"
             messages.success(request, f"Contact {full_name} was added!")
             return redirect("home")
@@ -433,11 +430,11 @@ class SearchContacts(LoginRequiredMixin, DataMixin, ListView):
         search_query = self.request.GET.get("search")
         if search_query:
             queryset = queryset.filter(
-                Q(first_name__iexact=search_query)
-                | Q(last_name__iexact=search_query)
-                | Q(address__iexact=search_query)
-                | Q(emails__email__iexact=search_query)
-                | Q(phones__phone__iexact=search_query)
+                Q(first_name__icontains=search_query)
+                | Q(last_name__icontains=search_query)
+                | Q(address__icontains=search_query)
+                | Q(emails__email__icontains=search_query)
+                | Q(phones__phone__icontains=search_query)
             ).distinct()
 
         queryset = queryset.filter(user=self.request.user).distinct()

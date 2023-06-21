@@ -49,7 +49,6 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     email_template_name = 'users/password_reset_email.html'
     html_email_template_name = 'users/password_reset_email.html'
     success_url = reverse_lazy('password_reset_done')
-    success_message = "An email with instructions to reset your password has been sent to %(email)s."
     subject_template_name = 'users/password_reset_subject.txt'
 
     def get_context_data(self, **kwargs):
@@ -66,7 +65,6 @@ def logout_user(request):
 class CustomLoginView(LoginView):
     template_name = 'users/signin.html'
     form_class = LoginForm
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -34,14 +34,14 @@ def sort_by_undone(request):
 
 @login_required
 def sort_by_priority(request):
-    notes = Note.objects.filter(user=request.user).order_by('-importance')
+    notes = Note.objects.filter(user=request.user).order_by('-importance', 'created')
     tags = Tag.objects.filter(user=request.user)
     title = "Notes"
     return render(request, 'noteapp/index.html', {"notes": notes, 'tags': tags, 'title': title, 'menu': menu})
 
 @login_required
 def sort_by_priority_rev(request):
-    notes = Note.objects.filter(user=request.user).order_by('importance')
+    notes = Note.objects.filter(user=request.user).order_by('importance',)
     tags = Tag.objects.filter(user=request.user)
     title = "Notes"
     return render(request, 'noteapp/index.html', {"notes": notes, 'tags': tags, 'title': title, 'menu': menu})
