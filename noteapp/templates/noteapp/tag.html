@@ -1,0 +1,35 @@
+{% extends "contacts/base.html" %}
+
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<h1>Add tag:</h1>
+
+<form method="POST" action="{% url 'add_tag' %}">
+    {% csrf_token %}
+    <div style="padding: 10px">
+        <label>Enter the Tag name:
+            {{form.name}}
+        </label>
+        <span>{{ form.errors.name }}</span>
+    </div>
+
+    <div class="fit2">
+        <a href="{% url 'add_note' %}" ><button type="button" class="btn btn-primary rounded-pill">Go back to note creation</button></a>
+        <a href="{% url 'notes' %}" ><button type="button" class="btn btn-primary rounded-pill">Go back to notes</button></a>
+    </div>
+    <div class="fit2">
+        <button type="submit" class="btn btn-success rounded-pill px-3">Add</button>
+        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+    </div>
+</form>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+{% endblock %}

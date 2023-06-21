@@ -1,0 +1,63 @@
+{% extends 'contacts/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<div>
+{% if messages %}
+{% for msg in messages %}
+<div class="alert {%if msg.tags %} alert-{{msg.tags}} {% endif %}" role="alert">{{msg}}</div>
+{% endfor %}
+{% endif %}
+</div>
+
+<h1>{{title}}</h1>
+
+<form action="{% url 'add_contact' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+    <div>
+
+        {% for f in contact_form %}
+        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+    </div>
+
+    <div>
+        {% for f in email_form %}
+        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+    </div>
+    <div class="phone-number-formset">
+        {% for form in phone_number_forms %}
+        <div class="phone-number-form margin">
+            {{ form.phone.errors }}
+            <label for="{{ form.phone.id_for_label }}">Phone{{ forloop.counter }}:</label>
+            {{ form.phone }}
+            {{ form.field_type.errors }}
+            <label for="{{ form.field_type.id_for_label }}">Type:</label>
+            {{ form.field_type }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="fit2">
+        <button type="submit" class="btn btn-success rounded-pill px-3">Add</button>
+        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+    </div>
+</form>
+
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+
+{% endblock %}

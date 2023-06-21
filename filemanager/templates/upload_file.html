@@ -1,0 +1,50 @@
+{% extends 'contacts/base.html' %}
+
+
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<h1>Upload File</h1>
+{% if error_message %}
+<div class="alert alert-danger" role="alert">
+    {{ error_message }}
+</div>
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group col-sm-6">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    <div class="form-group col-sm-12">
+        <label for="file">File:</label>
+        <input type="file" id="file" name="file" class="form-control-file" required>
+    </div>
+    <div class="form-group col-sm-6">
+        <label for="category">Category:</label>
+        <select id="category" name="category" class="form-control" required>
+            <option value="" selected disabled>Select category</option>
+            <option value="images">Images</option>
+            <option value="documents">Documents</option>
+            <option value="videos">Videos</option>
+            <option value="others">Others</option>
+        </select>
+    </div>
+    <div class="form-group col-sm-12 fit2">
+        <div>
+            <button type="submit" class="btn btn-success rounded-pill">Upload</button>
+            <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+        </div>
+    </div>
+</form>
+
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+{% endblock %}

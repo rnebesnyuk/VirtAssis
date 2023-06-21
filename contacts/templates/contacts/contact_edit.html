@@ -1,0 +1,42 @@
+{% extends 'contacts/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% if messages %}
+{% for msg in messages %}
+<div class="alert {%if msg.tags %} alert-{{msg.tags}} {% endif %}" role="alert">{{msg}}</div>
+{% endfor %}
+{% endif %}
+<div class="form-error">{{ form.non_field_errors }}</div>
+
+
+<h1>Edit contact <strong>{{contact.first_name}} {{contact.last_name}}:</strong></h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div>
+        <div>
+            {% for f in form %}
+            <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+            <div class="form-error">{{ f.errors }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="margin">
+        <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
+        <button type="reset" class="btn btn-secondary rounded-pill px-3">Reset</button>
+    </div>
+
+</form>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+{% endblock %}

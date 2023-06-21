@@ -1,0 +1,80 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<h1>Results:</h1>
+<div class="fit2 row">
+    <form action="{% url 'search' %}" method="get" class="col-sm-5 d-flex mt-3 mt-lg-0" role="search">
+        <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-success" type="submit">Search</button>
+    </form>
+</div>
+<div class="fit2">
+
+    <table class="table table-dark cust">
+        <thead>
+            <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Birthdate</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+
+        {% for contact in contacts %}
+        <tbody>
+            <tr>
+                {% if contact.photo %}
+                <td><img src="{{contact.photo.url}}" width="64" height="64"></td>
+                {% else %}
+                {% if contact.gender == 'male' %}
+                <td>
+                    <p class="pic_m"></p>
+                </td>
+                {% else %}
+                <td>
+                    <p class="pic_f"></p>
+                </td>
+                {% endif %}
+                {% endif %}
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.first_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.last_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.birthdate.date }}</td>
+                <td style="display: table-cell; vertical-align: middle;">
+                    {% for phone in contact.phones.all %}
+                    {% if phone.phone %}
+                    {{ phone.phone }}{% if phone.field_type %} - {{ phone.field_type }}{% endif %}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td> 
+                <td style="display: table-cell; vertical-align: middle;">
+                    {% for email in contact.emails.all %}
+                    {% if email.email %}
+                    {{ email.email }}{% if email.field_type %} - {{ email.field_type }}{% endif %}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td> 
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.gender }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.address|slice:":20" }}{% if contact.address|length > 20 %}...{% endif %}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+</div>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+{% endblock %}

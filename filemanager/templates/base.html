@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Personal Assistant{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .centered {
+            text-align: center;
+            margin-top: 200px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/" class="home-link">Home</a></li>
+                <li><a href="{% url 'upload_file' %}">Upload File</a></li>
+                <li><a href="{% url 'file_list' %}">File List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if request.path == '/' %}
+            <div class="centered">
+                <h1>Welcome to Filemanager</h1>
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Personal Assistant &copy; 2023</p>
+    </footer>
+</body>
+</html>

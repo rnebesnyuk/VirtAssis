@@ -1,0 +1,171 @@
+{% extends 'contacts/base.html' %}
+
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+{% if messages %}
+{% for msg in messages %}
+<div class="alert {%if msg.tags %} alert-{{msg.tags}} {% endif %}" role="alert">{{msg}}</div>
+{% endfor %}
+{% endif %}
+
+<div>
+    <div class="fit2">
+        <h1>Contacts</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <p style="font-size: 24px">Retrieve the contacts' entries who have a birthday in</p>
+        </div>
+        <div class="col-sm-2">
+            <form action="{% url 'show_bdays' %}" method="get">
+                <input type="number" name="days" required id="id_days">
+        </div>
+
+        <div class="col-sm-1">
+            <p style="font-size: 23px">day(s)</p>
+        </div>
+
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-success">Go!</button>
+        </div>
+        </form>
+    </div>
+    <div class="fit">
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="{% url 'add_contact' %}"><button type="submit" class="btn btn-success rounded-pill">+
+                        Add</button></a>
+            </div>
+            <div class="col-sm-2">
+                <a href="{% url 'import_contacts' %}"><button type="submit" class="btn btn-success rounded-pill">+
+                        Import
+                        .csv</button></a>
+            </div>
+            <div class="col-sm-2">
+                <a href="{% url 'export_contacts' %}"><button type="submit" class="btn btn-primary rounded-pill">+
+                        Export
+                        .csv</button></a>
+            </div>
+            <form action="{% url 'search' %}" method="get" class="col-sm-5 d-flex mt-3 mt-lg-0" role="search">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Birthdate</th>
+                <th scope="col">Phones</th>
+                <th scope="col">Email</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Address</th>
+                <th scope="col" style="padding-left: 48px;">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        {% for contact in contacts %}
+        <tbody>
+            <tr>
+                {% if contact.photo %}
+                <td><img src="{{contact.photo.url}}" width="64" height="64"></td>
+                {% else %}
+                {% if contact.gender == 'male' %}
+                <td>
+                    <p class="pic_m"></p>
+                </td>
+                {% else %}
+                <td>
+                    <p class="pic_f"></p>
+                </td>
+                {% endif %}
+                {% endif %}
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.first_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.last_name }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.birthdate.date }}</td>
+                <td style="display: table-cell; vertical-align: middle;">
+                    {% for phone in contact.phones.all %}
+                    {% if phone.phone %}
+                    {{ phone.phone }}{% if phone.field_type %} - {{ phone.field_type }}{% endif %}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="display: table-cell; vertical-align: middle;">
+                    {% for email in contact.emails.all %}
+                    {% if email.email %}
+                    {{ email.email }}{% if email.field_type %} - {{ email.field_type }}{% endif %}
+                    {% if not forloop.last %}</br>{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.gender }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.address|slice:":20" }}{% if contact.address|length > 20 %}...{% endif %}</td>
+                <td style="display: table-cell; vertical-align: middle;"><a href="{% url 'personal_info_edit' contact.slug %}"><button type="button" class="btn btn-outline-info"><span class="glyphicon glyphicon-user"></span></button></a><a href="{% url 'phone_edit' contact.slug %}"><button type="button" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-phone"></span></button></a><a href="{% url 'email_edit' contact.slug %}"><button type="button" class="btn btn-outline-info"><span class="glyphicon glyphicon-envelope"></span></button></a></td>
+                <td style="display: table-cell; vertical-align: middle;"><a href="{% url 'contact_delete' contact.slug %}"><button type="button"
+                            class="btn btn-danger rounded-pill">Delete</button></a></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+<div>
+    <nav class="list-pages">
+        {% if page_obj.has_other_pages %}
+        <ul>
+            {% if page_obj.has_previous %}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+            </li>
+            {% endif %}
+            {% if page_obj.number == 4 %}
+            <li class="page-num"><a href="?page=1">1</a></li>
+            {% endif %}
+            {% if page_obj.number > 4 %}
+            <li class="page-num"><a href="?page=1">1</a></li>
+            <li><span>...</span></li>
+            {% endif %}
+            {% for p in paginator.page_range %}
+            {% if page_obj.number == p %}
+            <li class="page-num page-num-selected">{{p}}</li>
+            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %} <li class="page-num">
+                <a href="?page={{p}}">{{p}}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %} <li>
+                    <span>...</span></li>
+                    <li class="page-num"><a
+                            href="?page={{page_obj.paginator.num_pages}}">{{page_obj.paginator.num_pages}}</a>
+                    </li>
+                    {% endif %}
+                    {% if page_obj.number == page_obj.paginator.num_pages|add:'-3' %}
+                    <li class="page-num"><a
+                            href="?page={{page_obj.paginator.num_pages}}">{{page_obj.paginator.num_pages}}</a>
+                    </li>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% endif %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #acaaa7;
+        /* Replace with your desired color */
+    }
+</style>
+</div>
+{% endblock %}
