@@ -58,7 +58,7 @@
                     {% endfor %}
                 </td>
                 <td style="display: table-cell; vertical-align: middle;">{{ contact.gender }}</td>
-                <td style="display: table-cell; vertical-align: middle;">{{ contact.address }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.address|slice:":20" }}{% if contact.address|length > 20 %}...{% endif %}</td>
             </tr>
         </tbody>
         {% endfor %}

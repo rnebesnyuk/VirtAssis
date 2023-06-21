@@ -106,7 +106,7 @@
                     {% endfor %}
                 </td>
                 <td style="display: table-cell; vertical-align: middle;">{{ contact.gender }}</td>
-                <td style="display: table-cell; vertical-align: middle;">{{ contact.address }}</td>
+                <td style="display: table-cell; vertical-align: middle;">{{ contact.address|slice:":20" }}{% if contact.address|length > 20 %}...{% endif %}</td>
                 <td style="display: table-cell; vertical-align: middle;"><a href="{% url 'personal_info_edit' contact.slug %}"><button type="button" class="btn btn-outline-info"><span class="glyphicon glyphicon-user"></span></button></a><a href="{% url 'phone_edit' contact.slug %}"><button type="button" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-phone"></span></button></a><a href="{% url 'email_edit' contact.slug %}"><button type="button" class="btn btn-outline-info"><span class="glyphicon glyphicon-envelope"></span></button></a></td>
                 <td style="display: table-cell; vertical-align: middle;"><a href="{% url 'contact_delete' contact.slug %}"><button type="button"
                             class="btn btn-danger rounded-pill">Delete</button></a></td>

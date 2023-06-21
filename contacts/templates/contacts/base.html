@@ -94,9 +94,9 @@
                         </td>
                         {% else %}
                         {% if title == 'Login' or title == 'Signup' or title == 'Password reset' or title == 'Password reset sent' or title == 'Password reset complete' or title == 'Enter new password' or title == 'Password reset successful' or title == 'Password reset unsuccessful'%} 
-                        <li style="font-size: 25px; "><a href="{% url 'main' %}">News</a></li>
+                        <li style="font-size: 25px; "><a href="{% url 'main' %}"><span class="glyphicon glyphicon-globe"></span> News</a></li>
                         {% else %}
-                        <li class="selected">News</li>
+                        <li class="selected"><span class="glyphicon glyphicon-globe"> </span>News</li>
                         {% endif %}
                         {% endif %}
                         <!-- End Sidebar's -->
